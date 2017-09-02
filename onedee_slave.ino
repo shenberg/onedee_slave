@@ -25,32 +25,49 @@
 // these constants won't change:
 const int ledPin = 6;      // led connected to digital pin 13
 const int knockSensor = A0; // the piezo is connected to analog pin 0
-const int threshold = 100;  // threshold value to decide when the detected sound is a knock or not
+const int potPin = A1; //pin A0 to read analog input
 
 
 // these variables will change:
 int sensorReading = 0;      // variable to store the value read from the sensor pin
 int ledState = LOW;         // variable used to store the last LED status, to toggle the light
 
+int potValue; //save analog value
+int ledPotValue; //change the value from 1023 to 255 (later)
+
+int threshold = 100;  // initial threshold value to decide when the detected sound is a knock or not
+
+
 void setup() {
+
+  pinMode(potPin, INPUT); //Optional 
   pinMode(ledPin, OUTPUT); // declare the ledPin as as OUTPUT
   Serial.begin(115200);       // use the serial port
 }
 
 void loop() {
+
+  potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
+  threshold = potValue;
+
+  ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
+  analogWrite(ledPin, ledPotValue);          //Send PWM ledPotValue to led
+
+  Serial.println(potValue);
+
   // read the sensor and store it in the variable sensorReading:
   sensorReading = analogRead(knockSensor);
 
   // if the sensor reading is greater than the threshold:
   if (sensorReading >= threshold) {
-    // toggle the status of the ledPin:
-    ledState = !ledState;
-    // update the LED pin itself:
-    digitalWrite(ledPin, ledState);
     // send the string "Knock!" back to the computer, followed by newline
-    Serial.println("Knock!");
+    Serial.print("Knock!");
+    Serial.println(threshold);
   }
+
   Serial.println(sensorReading);
   delay(10);  // delay to avoid overloading the serial port buffer
 }
 
+
+  
