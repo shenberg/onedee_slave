@@ -29,9 +29,31 @@ void setup() {
   Serial.begin(115200);       // use the serial port
 }
 
+bool isKnock() {
+  int potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
+  int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
+
+  int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
+  analogWrite(ledPin, ledPotValue);          //Send PWM ledPotValue to led
+
+  Serial.println(potValue);
+
+  // read the sensor and store it in the variable sensorReading:
+  int sensorReading = analogRead(knockSensor);  
+  Serial.println(sensorReading);
+
+  if (sensorReading >= threshold) {
+    Serial.print("Knock!");
+    Serial.println(threshold);
+    // TODO: some form of cooldown
+    return true;    
+  }
+  return false;
+}
+
 void loop() {
 
-  int potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
+  /*int potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
   int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
 
   int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
@@ -49,7 +71,9 @@ void loop() {
     Serial.println(threshold);
   }
 
-  Serial.println(sensorReading);
+  Serial.println(sensorReading);*/
+
+  isKnock();
   delay(10);  // delay to avoid overloading the serial port buffer
 }
 
