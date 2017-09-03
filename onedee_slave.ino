@@ -45,7 +45,7 @@ bool isKnock() {
   if (sensorReading >= threshold) {
     Serial.print("Knock!");
     Serial.println(threshold);
-    // TODO: some form of cooldown
+    // TODO: some form of cooldown to debounce
     return true;    
   }
   return false;
