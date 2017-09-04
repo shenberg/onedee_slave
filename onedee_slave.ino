@@ -19,6 +19,7 @@ const int LED_PIN = 3;      // led connected to digital pin 6 (pwm)
 const int KNOCK_SENSOR_PIN = A0; // the piezo is connected to analog pin 0
 const int POT_PIN = A3; //pin A0 to read analog input
 const int COMMUNICATION_PIN = 9; // send drum beat to master
+constexpr int REMOTE_BEAT_DELAY = 15; // milliseconds
 
 // these variables will change:
 
@@ -67,7 +68,7 @@ void loop() {
 
   if (isKnock()) {
     digitalWrite(COMMUNICATION_PIN, HIGH);
-    delay(15); // time for master to write all pixels to the strip with some spare (real time = ~12ms) 
+    delay(REMOTE_BEAT_DELAY); // time for master to write all pixels to the strip with some spare (real time = ~12ms) 
     digitalWrite(COMMUNICATION_PIN, LOW);
   }
   delay(1);  // delay to avoid overloading the serial port buffer
