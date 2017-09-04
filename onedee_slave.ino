@@ -31,15 +31,25 @@ void setup() {
 }
 
 bool isKnock() {
+  // ronen suggested analog noise workaround
+  /*
+  analogRead(POT_PIN);
+  delay(1);
+  */
   int potValue = analogRead(POT_PIN);          //Read and save analog potValue from potentiometer
   int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
 
   int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
   analogWrite(LED_PIN, ledPotValue);          //Send PWM ledPotValue to led
 
-  Serial.println(potValue);
-
+  Serial.print(potValue);
+  Serial.print(' ');
   // read the sensor and store it in the variable sensorReading:
+  // ronen suggested analog noise workaround
+  /*
+  analogRead(KNOCK_SENSOR_PIN);
+  delay(1);
+  */
   int sensorReading = analogRead(KNOCK_SENSOR_PIN);  
   Serial.println(sensorReading);
 
