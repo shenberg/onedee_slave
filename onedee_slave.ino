@@ -18,7 +18,7 @@
 const int LED_PIN = 3;      // led connected to digital pin 6 (pwm)
 const int KNOCK_SENSOR_PIN = A0; // the piezo is connected to analog pin 0
 const int POT_PIN = A3; //pin A0 to read analog input
-
+const int COMMUNICATION_PIN = 9; // send drum beat to master
 
 // these variables will change:
 
@@ -26,6 +26,7 @@ void setup() {
 
   pinMode(POT_PIN, INPUT); //Optional 
   pinMode(LED_PIN, OUTPUT); // declare the LED_PIN as as OUTPUT
+  pinMode(COMMUNICATION_PIN, OUTPUT);
   Serial.begin(115200);       // use the serial port
 }
 
@@ -73,8 +74,12 @@ void loop() {
 
   Serial.println(sensorReading);*/
 
-  isKnock();
-  delay(10);  // delay to avoid overloading the serial port buffer
+  if (isKnock()) {
+    digitalWrite(COMMUNICATION_PIN, HIGH);
+    delay(15); // time for master to write all pixels to the strip with some spare (real time = ~12ms) 
+    digitalWrite(COMMUNICATION_PIN, LOW);
+  }
+  delay(1);  // delay to avoid overloading the serial port buffer
 }
 
 
