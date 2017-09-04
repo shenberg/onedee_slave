@@ -15,31 +15,31 @@
 
 
 // these constants won't change:
-const int ledPin = 6;      // led connected to digital pin 6 (pwm)
-const int knockSensor = A0; // the piezo is connected to analog pin 0
-const int potPin = A1; //pin A0 to read analog input
+const int LED_PIN = 3;      // led connected to digital pin 6 (pwm)
+const int KNOCK_SENSOR_PIN = A0; // the piezo is connected to analog pin 0
+const int POT_PIN = A3; //pin A0 to read analog input
 
 
 // these variables will change:
 
 void setup() {
 
-  pinMode(potPin, INPUT); //Optional 
-  pinMode(ledPin, OUTPUT); // declare the ledPin as as OUTPUT
+  pinMode(POT_PIN, INPUT); //Optional 
+  pinMode(LED_PIN, OUTPUT); // declare the LED_PIN as as OUTPUT
   Serial.begin(115200);       // use the serial port
 }
 
 bool isKnock() {
-  int potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
+  int potValue = analogRead(POT_PIN);          //Read and save analog potValue from potentiometer
   int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
 
   int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
-  analogWrite(ledPin, ledPotValue);          //Send PWM ledPotValue to led
+  analogWrite(LED_PIN, ledPotValue);          //Send PWM ledPotValue to led
 
   Serial.println(potValue);
 
   // read the sensor and store it in the variable sensorReading:
-  int sensorReading = analogRead(knockSensor);  
+  int sensorReading = analogRead(KNOCK_SENSOR_PIN);  
   Serial.println(sensorReading);
 
   if (sensorReading >= threshold) {
@@ -53,16 +53,16 @@ bool isKnock() {
 
 void loop() {
 
-  /*int potValue = analogRead(potPin);          //Read and save analog potValue from potentiometer
+  /*int potValue = analogRead(POT_PIN);          //Read and save analog potValue from potentiometer
   int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
 
   int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
-  analogWrite(ledPin, ledPotValue);          //Send PWM ledPotValue to led
+  analogWrite(LED_PIN, ledPotValue);          //Send PWM ledPotValue to led
 
   Serial.println(potValue);
 
   // read the sensor and store it in the variable sensorReading:
-  int sensorReading = analogRead(knockSensor);
+  int sensorReading = analogRead(KNOCK_SENSOR_PIN);
 
   // if the sensor reading is greater than the threshold:
   if (sensorReading >= threshold) {
