@@ -64,25 +64,6 @@ bool isKnock() {
 
 void loop() {
 
-  /*int potValue = analogRead(POT_PIN);          //Read and save analog potValue from potentiometer
-  int threshold = potValue; // initial threshold value to decide when the detected sound is a knock or not
-
-  int ledPotValue = map(potValue, 0, 1023, 0, 255); //Map potValue 0-1023 to 0-255 (PWM) = ledPotValue
-  analogWrite(LED_PIN, ledPotValue);          //Send PWM ledPotValue to led
-
-  Serial.println(potValue);
-
-  // read the sensor and store it in the variable sensorReading:
-  int sensorReading = analogRead(KNOCK_SENSOR_PIN);
-
-  // if the sensor reading is greater than the threshold:
-  if (sensorReading >= threshold) {
-    // send the string "Knock!" back to the computer, followed by newline
-    Serial.print("Knock!");
-    Serial.println(threshold);
-  }
-
-  Serial.println(sensorReading);*/
 
   if (isKnock()) {
     digitalWrite(COMMUNICATION_PIN, HIGH);
