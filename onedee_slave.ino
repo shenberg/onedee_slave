@@ -32,6 +32,8 @@ void setup() {
 }
 
 bool isKnock() {
+  // simple hysteresis - don't tap again until we see a release sample
+  static bool wasKnocked = false;
   // ronen suggested analog noise workaround
   /*
   analogRead(POT_PIN);
@@ -55,10 +57,17 @@ bool isKnock() {
   Serial.println(sensorReading);
 
   if (sensorReading >= threshold) {
-    Serial.print("Knock!");
-    Serial.println(threshold);
-    // TODO: some form of cooldown to debounce
-    return true;    
+    if (!wasKnocked) {
+      Serial.print("Knock!");
+      Serial.println(threshold);
+      // TODO: some form of cooldown to debounce
+      wasKnocked = true;
+      return true;
+    }
+
+  } else if (wasKnocked) {
+    Serial.println("Unknocked");
+    wasKnocked = false;
   }
   return false;
 }
